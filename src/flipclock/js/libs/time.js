@@ -123,10 +123,10 @@
 				if(value.length == 1) {
 					value = '0'+value;
 				}
-				
-				for(var x = 0; x < value.length; x++) {
-					data.push(value.charAt(x));
-				}				
+
+
+				data.push(value);
+
 			});
 
 			if(data.length > this.minimumDigits) {
@@ -138,7 +138,6 @@
 					data.unshift('0');
 				}
 			}
-
 			return data;
 		},
 		
@@ -152,7 +151,6 @@
 			if(this.time instanceof Date) {
 				return this.time;
 			}
-
 			return new Date((new Date()).getTime() + this.getTimeSeconds() * 1000);
 		},
 		

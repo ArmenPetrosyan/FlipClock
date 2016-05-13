@@ -1,4 +1,5 @@
 /* Get the bourbon mixin from http://bourbon.io */
+@import url(//fonts.googleapis.com/css?family=PT+Sans);
 /* Reset */
 .flip-clock-wrapper * {
     -webkit-box-sizing: border-box;
@@ -11,6 +12,7 @@
     -ms-backface-visibility: hidden;
     -o-backface-visibility: hidden;
     backface-visibility: hidden;
+    font-family: 'PT Sans';
 }
 
 .flip-clock-wrapper a {
@@ -69,10 +71,10 @@
     float: left;
     margin: 5px;
     width: 60px;
-    height: 90px;
+    height: 60px;
     font-size: 80px;
-    font-weight: bold;
-    line-height: 87px;
+    font-weight: 400;
+    line-height: 40px;
     border-radius: 6px;
     background: #000;
 }
@@ -84,7 +86,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    line-height: 87px;
+    line-height: 60px;
     text-decoration: none !important;
 }
 
@@ -107,7 +109,7 @@
     left: 0;
     width: 100%;
     height: 50%;
-    font-size: 80px;
+    font-size: 40px;
     overflow: hidden;
     outline: 1px solid transparent; }
 
@@ -128,7 +130,7 @@
 .flip-clock-wrapper ul li a div.up:after {
     content: "";
     position: absolute;
-    top: 44px;
+    top: 29px;
     left: 0;
     z-index: 5;
     width: 100%;
@@ -153,12 +155,11 @@
     z-index: 1;
     width: 100%;
     height: 200%;
-    color: #ccc;
-    text-shadow: 0 1px 2px #000;
+    color: #fff;
     text-align: center;
-    background-color: #333;
+    background-color: #243238;
     border-radius: 6px;
-    font-size: 70px; }
+    font-size: 40px; }
 
 .flip-clock-wrapper ul li a div.up div.inn {
     top: 0; }
@@ -170,8 +171,6 @@
 .flip-clock-wrapper ul.play li.flip-clock-before {
     z-index: 3; }
 
-.flip-clock-wrapper .flip {   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7); }
-
 .flip-clock-wrapper ul.play li.flip-clock-active {
     -webkit-animation: asd 0.5s 0.5s linear both;
     -moz-animation: asd 0.5s 0.5s linear both;
@@ -182,7 +181,7 @@
     float: left;
     display: inline-block;
     position: relative;
-    width: 20px;
+    /*width: 20px;*/
     height: 100px; }
 
 .flip-clock-divider:first-child {

@@ -1,6 +1,6 @@
 @import 'bourbon/bourbon';
 /* Get the bourbon mixin from http://bourbon.io */
-
+@import url(//fonts.googleapis.com/css?family=PT+Sans);
 /* Reset */
 .flip-clock-wrapper * {
     margin: 0;
@@ -68,13 +68,12 @@
     float: left;
     margin: 5px;
     width: 60px;
-    height: 90px;
-    font-size: 80px;
+    height: 60px;
+    line-height: 60;
+    font-size: 40px;
     font-weight: bold;
-    line-height: 87px;
     border-radius: 6px_prefixed
     ;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, .7);
 }
 
 .flip-clock-wrapper ul li {
@@ -143,12 +142,11 @@
     z-index: 1;
     width: 100%;
     height: 200%;
-    color: #ccc;
-    text-shadow: 0 1px 2px #000;
+    color: #fff;
     text-align: center;
-    background-color: #333;
+    background-color: #243238;
     border-radius: 6px;
-    font-size: 70px;
+    font-size: 40px;
 }
 
 .flip-clock-wrapper ul li a div.up div.inn {

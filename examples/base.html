@@ -19,14 +19,26 @@
 			clock = $('.clock').FlipClock({
 		        clockFace: 'RDHourlyCounter',
 		        autoStart: false,
+				countdown : true,
 		        callbacks: {
 		        	stop: function() {
 		        		$('.message').html('The clock has stopped!')
 		        	}
-		        }
+		        },
+				classes: {
+					active: 'flip-clock-active',
+					before: 'flip-clock-before',
+					divider: 'flip-clock-divider',
+					dot: 'flip-clock-dot',
+					label: 'flip-clock-label',
+					flip: 'flip',
+					play: 'play',
+					wrapper: 'rd-face flip-clock-wrapper'
+				},
+
 		    });
 				    
-		    clock.setTime(200);
+		    clock.setTime(60);
 		    clock.setCountdown(true);
 		    clock.start();
 

@@ -113,17 +113,50 @@
 		 * @param   mixed  An array of digits	 
 		 * @return  array  An array of digits 
 		 */
-		 
+
 		digitize: function(obj) {
 			var data = [];
 
 			$.each(obj, function(i, value) {
 				value = value.toString();
-				
+
 				if(value.length == 1) {
 					value = '0'+value;
 				}
 
+				for(var x = 0; x < value.length; x++) {
+					data.push(value.charAt(x));
+				}
+			});
+
+			if(data.length > this.minimumDigits) {
+				this.minimumDigits = data.length;
+			}
+
+			if(this.minimumDigits > data.length) {
+				for(var x = data.length; x < this.minimumDigits; x++) {
+					data.unshift('0');
+				}
+			}
+
+			return data;
+		},
+
+		/**
+		 * Formats any array of numbers into a valid array of numbers
+		 *
+		 * @param   mixed  An array of numbers
+		 * @return  array  An array of numbers
+		 */
+		numberize: function(obj) {
+			var data = [];
+
+			$.each(obj, function(i, value) {
+				value = value.toString();
+
+				if(value.length == 1) {
+					value = '0'+value;
+				}
 
 				data.push(value);
 
@@ -132,7 +165,7 @@
 			if(data.length > this.minimumDigits) {
 				this.minimumDigits = data.length;
 			}
-			
+
 			if(this.minimumDigits > data.length) {
 				for(var x = data.length; x < this.minimumDigits; x++) {
 					data.unshift('0');
@@ -206,7 +239,22 @@
 			
 			return obj;
 		},
-		
+
+		/**
+		 * Gets an RD hourly breakdown
+		 *
+		 * @return  object  Returns a digitized object
+		 */
+
+		getRDHourCounter: function() {
+			var obj = this.numberize([
+				this.getHours(),
+				this.getMinutes(true),
+				this.getSeconds(true)
+			]);
+
+			return obj;
+		},
 		/**
 		 * Gets an hourly breakdown
 		 *

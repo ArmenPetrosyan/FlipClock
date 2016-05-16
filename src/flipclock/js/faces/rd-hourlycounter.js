@@ -31,13 +31,12 @@
 			var t = this;
 			var children = this.factory.$el.find('ul');
 
-			time = time ? time : this.factory.time.getHourCounter();
+			time = time ? time : this.factory.time.getRDHourCounter();
 
-			if(time.length > children.length) {
-				$.each(time, function(i, digit) {
-					t.createList(digit);
-				});
-			}
+
+			$.each(time, function(i, digit) {
+				t.createList(digit);
+			});
 
 			$(this.createDivider('Seconds', true)).insertBefore(this.lists[this.lists.length - 1].$el);
 			$(this.createDivider('Minutes', true)).insertBefore(this.lists[this.lists.length - 2].$el);
@@ -55,22 +54,13 @@
 		 
 		flip: function(time, doNotAddPlayClass) {
 			if(!time) {
-				time = this.factory.time.getHourCounter();
-			}	
+				time = this.factory.time.getRDHourCounter();
+			}
 
 			this.autoIncrement();
 		
 			this.base(time, doNotAddPlayClass);
-		},
-
-		/**
-		 * Append a newly created list to the clock
-		 */
-
-		appendDigitToClock: function(obj) {
-			this.base(obj);
 		}
-
 	});
 	
 }(jQuery));

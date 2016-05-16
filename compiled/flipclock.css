@@ -1,4 +1,6 @@
 /* Get the bourbon mixin from http://bourbon.io */
+/* @todo: удалить шрифт после подключения стилей к проекту*/
+@import url(//fonts.googleapis.com/css?family=PT+Sans);
 /* Reset */
 .flip-clock-wrapper * {
     -webkit-box-sizing: border-box;
@@ -429,3 +431,29 @@
 
     100% {
         opacity: 0; } }
+
+/*********** RD Flipclock face ***********/
+
+.rd-face.flip-clock-wrapper ul {
+    height: 60px;
+    font-weight: 400;
+    font-family: 'PT Sans', sans-serif;
+}
+.rd-face.flip-clock-wrapper ul li a div div.inn {
+    color: #fff;
+    background-color: #243238;
+    font-size: 40px;
+    line-height: 60px;
+}
+
+.rd-face .flip-clock-divider {
+    width: 0;
+}
+
+.rd-face.flip-clock-wrapper ul li a div.up:after {
+    top: 29px;
+}
+
+.rd-face.flip-clock-wrapper .flip {
+    box-shadow: none;
+}

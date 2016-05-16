@@ -1190,184 +1190,6 @@ var FlipClock;
 	
 }(jQuery));
 
-///*jshint smarttabs:true */
-//
-//(function($) {
-//
-//	"use strict";
-//
-//	/**
-//	 * The FlipClock Time class is used to manage all the time
-//	 * calculations.
-//	 *
-//	 * @param 	object  A FlipClock.Factory object
-//	 * @param 	mixed   This is the digit used to set the clock. If an
-//	 *				    object is passed, 0 will be used.
-//	 * @param 	object  An object of properties to override the default
-//	 */
-//
-//	FlipClock.RDTime = FlipClock.Time.extend({
-//
-//
-//		/**
-//		 * Get a specific digit from the time integer
-//		 *
-//		 * @param   int    The specific digit to select from the time
-//		 * @return  mixed  Returns FALSE if no digit is found, otherwise
-//		 *				   the method returns the defined digit
-//		 */
-//
-//		digit: function(i) {
-//			var timeStr = this.toString();
-//			var length  = timeStr.length;
-//
-//			if(timeStr[length - i])	 {
-//				return timeStr[length - i];
-//			}
-//
-//			return false;
-//		},
-//
-//		/**
-//		 * Formats any array of digits into a valid array of digits
-//		 *
-//		 * @param   mixed  An array of digits
-//		 * @return  array  An array of digits
-//		 */
-//
-//		digitize: function(obj) {
-//			var data = [];
-//
-//			$.each(obj, function(i, value) {
-//				value = value.toString();
-//
-//				if(value.length == 1) {
-//					value = '0'+value;
-//				}
-//
-//				for(var x = 0; x < value.length; x++) {
-//					data.push(value.charAt(x));
-//				}
-//			});
-//
-//			if(data.length > this.minimumDigits) {
-//				this.minimumDigits = data.length;
-//			}
-//
-//			if(this.minimumDigits > data.length) {
-//				for(var x = data.length; x < this.minimumDigits; x++) {
-//					data.unshift('0');
-//				}
-//			}
-//
-//			return data;
-//		},
-//
-//
-//
-//		/**
-//		 * Gets an hourly breakdown
-//		 *
-//		 * @return  object  Returns a digitized object
-//		 */
-//
-//		getHourCounter: function() {
-//			var obj = this.digitize([
-//				this.getHours(),
-//				this.getMinutes(true),
-//				this.getSeconds(true)
-//			]);
-//
-//			return obj;
-//		},
-//
-//		/**
-//		 * Gets an hourly breakdown
-//		 *
-//		 * @return  object  Returns a digitized object
-//		 */
-//
-//		getHourly: function() {
-//			return this.getHourCounter();
-//		},
-//
-//		/**
-//		 * Gets number of hours
-//		 *
-//		 * @param   bool  Should perform a modulus? If not sent, then no.
-//		 * @return  int   Retuns a floored integer
-//		 */
-//
-//		getHours: function(mod) {
-//			var hours = this.getTimeSeconds() / 60 / 60;
-//
-//			if(mod) {
-//				hours = hours % 24;
-//			}
-//
-//			return Math.floor(hours);
-//		},
-//
-//		/**
-//		 * Gets the twenty-four hour time
-//		 *
-//		 * @return  object  returns a digitized object
-//		 */
-//
-//		getMilitaryTime: function(date, showSeconds) {
-//			if(typeof showSeconds === "undefined") {
-//				showSeconds = true;
-//			}
-//
-//			if(!date) {
-//				date = this.getDateObject();
-//			}
-//
-//			var data  = [
-//				date.getHours(),
-//				date.getMinutes()
-//			];
-//
-//			if(showSeconds === true) {
-//				data.push(date.getSeconds());
-//			}
-//
-//			return this.digitize(data);
-//		},
-//
-//		/**
-//		 * Gets number of minutes
-//		 *
-//		 * @param   bool  Should perform a modulus? If not sent, then no.
-//		 * @return  int   Retuns a floored integer
-//		 */
-//
-//		getMinutes: function(mod) {
-//			var minutes = this.getTimeSeconds() / 60;
-//
-//			if(mod) {
-//				minutes = minutes % 60;
-//			}
-//
-//			return Math.floor(minutes);
-//		},
-//
-//		/**
-//		 * Gets a minute breakdown
-//		 */
-//
-//		getMinuteCounter: function() {
-//			var obj = this.digitize([
-//				this.getMinutes(),
-//				this.getSeconds(true)
-//			]);
-//
-//			return obj;
-//		}
-//	});
-//
-//}(jQuery));
-
 /*jshint smarttabs:true */
 
 /**
@@ -1483,17 +1305,50 @@ var FlipClock;
 		 * @param   mixed  An array of digits	 
 		 * @return  array  An array of digits 
 		 */
-		 
+
 		digitize: function(obj) {
 			var data = [];
 
 			$.each(obj, function(i, value) {
 				value = value.toString();
-				
+
 				if(value.length == 1) {
 					value = '0'+value;
 				}
 
+				for(var x = 0; x < value.length; x++) {
+					data.push(value.charAt(x));
+				}
+			});
+
+			if(data.length > this.minimumDigits) {
+				this.minimumDigits = data.length;
+			}
+
+			if(this.minimumDigits > data.length) {
+				for(var x = data.length; x < this.minimumDigits; x++) {
+					data.unshift('0');
+				}
+			}
+
+			return data;
+		},
+
+		/**
+		 * Formats any array of numbers into a valid array of numbers
+		 *
+		 * @param   mixed  An array of numbers
+		 * @return  array  An array of numbers
+		 */
+		numberize: function(obj) {
+			var data = [];
+
+			$.each(obj, function(i, value) {
+				value = value.toString();
+
+				if(value.length == 1) {
+					value = '0'+value;
+				}
 
 				data.push(value);
 
@@ -1502,7 +1357,7 @@ var FlipClock;
 			if(data.length > this.minimumDigits) {
 				this.minimumDigits = data.length;
 			}
-			
+
 			if(this.minimumDigits > data.length) {
 				for(var x = data.length; x < this.minimumDigits; x++) {
 					data.unshift('0');
@@ -1576,7 +1431,22 @@ var FlipClock;
 			
 			return obj;
 		},
-		
+
+		/**
+		 * Gets an RD hourly breakdown
+		 *
+		 * @return  object  Returns a digitized object
+		 */
+
+		getRDHourCounter: function() {
+			var obj = this.numberize([
+				this.getHours(),
+				this.getMinutes(true),
+				this.getSeconds(true)
+			]);
+
+			return obj;
+		},
 		/**
 		 * Gets an hourly breakdown
 		 *
@@ -2484,13 +2354,12 @@ var FlipClock;
 			var t = this;
 			var children = this.factory.$el.find('ul');
 
-			time = time ? time : this.factory.time.getHourCounter();
+			time = time ? time : this.factory.time.getRDHourCounter();
 
-			if(time.length > children.length) {
-				$.each(time, function(i, digit) {
-					t.createList(digit);
-				});
-			}
+
+			$.each(time, function(i, digit) {
+				t.createList(digit);
+			});
 
 			$(this.createDivider('Seconds', true)).insertBefore(this.lists[this.lists.length - 1].$el);
 			$(this.createDivider('Minutes', true)).insertBefore(this.lists[this.lists.length - 2].$el);
@@ -2508,22 +2377,13 @@ var FlipClock;
 		 
 		flip: function(time, doNotAddPlayClass) {
 			if(!time) {
-				time = this.factory.time.getHourCounter();
-			}	
+				time = this.factory.time.getRDHourCounter();
+			}
 
 			this.autoIncrement();
 		
 			this.base(time, doNotAddPlayClass);
-		},
-
-		/**
-		 * Append a newly created list to the clock
-		 */
-
-		appendDigitToClock: function(obj) {
-			this.base(obj);
 		}
-
 	});
 	
 }(jQuery));

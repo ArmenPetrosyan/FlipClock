@@ -434,6 +434,10 @@
 
 /*********** RD Flipclock face ***********/
 
+.rd-face.flip-clock-wrapper {
+    text-align: left;
+}
+
 .rd-face.flip-clock-wrapper ul {
     height: 60px;
     font-weight: 400;
@@ -456,4 +460,13 @@
 
 .rd-face.flip-clock-wrapper .flip {
     box-shadow: none;
+}
+
+.flip-wrapper {
+    display: inline-block;
+    text-align: center;
+}
+
+.flip-wrapper .flip {
+    float: none;
 }

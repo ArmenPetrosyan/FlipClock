@@ -92,6 +92,7 @@
 				this.select(digit);
 			}
 
+			console.log(this.$el);
 			this.factory.$el.append(this.$el);
 		},
 		

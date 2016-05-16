@@ -20,6 +20,7 @@
 		 */
 		 
 		constructor: function(factory, options) {
+			this.options = options;
 			this.base(factory, options);
 		},
 		
@@ -29,7 +30,6 @@
 		
 		build: function(excludeHours, time) {
 			var t = this;
-			var children = this.factory.$el.find('ul');
 
 			time = time ? time : this.factory.time.getRDHourCounter();
 
@@ -38,14 +38,53 @@
 				t.createList(digit);
 			});
 
-			$(this.createDivider('Seconds', true)).insertBefore(this.lists[this.lists.length - 1].$el);
-			$(this.createDivider('Minutes', true)).insertBefore(this.lists[this.lists.length - 2].$el);
+			var labels = ['Hours','Minutes', 'Seconds'];
 
-			if(!excludeHours) {
-				$(this.createDivider('Hours', true)).insertBefore(this.lists[0].$el);
+			$.each(this.lists, function(i,el){
+				$el = el.$el;
+				var cover = $('<div class="flip-wrapper">',true);
+				$el.wrap(cover).parent().append('<span class="flip-clock-label">'+labels[i]+'</span>');
+			});
+			this.base();
+		},
+
+		/**
+		 * Creates a jQuery object used for the digit divider
+		 *
+		 * @param	mixed 	The divider label text
+		 * @param	mixed	Set true to exclude the dots in the divider.
+		 *					If not set, is false.
+		 */
+
+		createDivider: function(label, css, excludeDots) {
+			if(typeof css == "boolean" || !css) {
+				excludeDots = css;
+				css = label;
 			}
 
-			this.base();
+			var dots = [
+				'<span class="'+this.factory.classes.dot+' top"></span>',
+				'<span class="'+this.factory.classes.dot+' bottom"></span>'
+			].join('');
+
+			if(excludeDots) {
+				dots = '';
+			}
+
+			label = this.factory.localize(label);
+
+			var html = [
+				'<span class="rd-'+this.factory.classes.divider+' '+(css ? css : '').toLowerCase()+'">',
+				'<span class="rd-'+this.factory.classes.label+'">'+(label ? label : '')+'</span>',
+				dots,
+				'</span>'
+			];
+
+			var $html = $(html.join(''));
+
+			this.dividers.push($html);
+
+			return $html;
 		},
 		
 		/**

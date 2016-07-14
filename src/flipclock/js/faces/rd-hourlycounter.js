@@ -47,45 +47,6 @@
 			});
 			this.base();
 		},
-
-		/**
-		 * Creates a jQuery object used for the digit divider
-		 *
-		 * @param	mixed 	The divider label text
-		 * @param	mixed	Set true to exclude the dots in the divider.
-		 *					If not set, is false.
-		 */
-
-		createDivider: function(label, css, excludeDots) {
-			if(typeof css == "boolean" || !css) {
-				excludeDots = css;
-				css = label;
-			}
-
-			var dots = [
-				'<span class="'+this.factory.classes.dot+' top"></span>',
-				'<span class="'+this.factory.classes.dot+' bottom"></span>'
-			].join('');
-
-			if(excludeDots) {
-				dots = '';
-			}
-
-			label = this.factory.localize(label);
-
-			var html = [
-				'<span class="rd-'+this.factory.classes.divider+' '+(css ? css : '').toLowerCase()+'">',
-				'<span class="rd-'+this.factory.classes.label+'">'+(label ? label : '')+'</span>',
-				dots,
-				'</span>'
-			];
-
-			var $html = $(html.join(''));
-
-			this.dividers.push($html);
-
-			return $html;
-		},
 		
 		/**
 		 * Flip the clock face

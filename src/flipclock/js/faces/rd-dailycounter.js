@@ -8,7 +8,7 @@
 	 * @param  object  An object of properties to override the default	
 	 */
 	 
-	FlipClock.RDHourlyCounterFace = FlipClock.Face.extend({
+	FlipClock.RDDailyCounterFace = FlipClock.Face.extend({
 			
 		// clearExcessDigits: true,
 
@@ -31,13 +31,13 @@
 		build: function(excludeHours, time) {
 			var t = this;
 
-			time = time ? time : this.factory.time.getRDHourlyCounter();
+			time = time ? time : this.factory.time.getRDDailyCounter();
 
 			$.each(time, function(i, digit) {
 				t.createList(digit);
 			});
 
-			var labels = ['Hours','Minutes', 'Seconds'];
+			var labels = ['Days','Hours','Minutes', 'Seconds'];
 
 			$.each(this.lists, function(i,el){
 				$el = el.$el;
@@ -53,7 +53,7 @@
 		 
 		flip: function(time, doNotAddPlayClass) {
 			if(!time) {
-				time = this.factory.time.getRDHourlyCounter();
+				time = this.factory.time.getRDDailyCounter();
 			}
 
 			this.autoIncrement();

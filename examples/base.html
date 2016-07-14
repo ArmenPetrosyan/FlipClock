@@ -17,7 +17,7 @@
 			var clock;
 
 			clock = $('.clock').FlipClock({
-		        clockFace: 'RDHourlyCounter',
+		        clockFace: 'RDDailyCounter',
 		        autoStart: false,
 				countdown : true,
 		        callbacks: {
@@ -38,7 +38,7 @@
 
 		    });
 				    
-		    clock.setTime(60);
+		    clock.setTime(6000000);
 		    clock.setCountdown(true);
 		    clock.start();
 		});

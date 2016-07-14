@@ -246,9 +246,26 @@
 		 * @return  object  Returns a digitized object
 		 */
 
-		getRDHourCounter: function() {
+		getRDHourlyCounter: function() {
 			var obj = this.numberize([
 				this.getHours(),
+				this.getMinutes(true),
+				this.getSeconds(true)
+			]);
+
+			return obj;
+		},
+
+		/**
+		 * Gets an RD hourly breakdown
+		 *
+		 * @return  object  Returns a digitized object
+		 */
+
+		getRDDailyCounter: function() {
+			var obj = this.numberize([
+				this.getDays(),
+				this.getHours(true),
 				this.getMinutes(true),
 				this.getSeconds(true)
 			]);

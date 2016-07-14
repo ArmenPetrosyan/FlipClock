@@ -1438,9 +1438,26 @@ var FlipClock;
 		 * @return  object  Returns a digitized object
 		 */
 
-		getRDHourCounter: function() {
+		getRDHourlyCounter: function() {
 			var obj = this.numberize([
 				this.getHours(),
+				this.getMinutes(true),
+				this.getSeconds(true)
+			]);
+
+			return obj;
+		},
+
+		/**
+		 * Gets an RD hourly breakdown
+		 *
+		 * @return  object  Returns a digitized object
+		 */
+
+		getRDDailyCounter: function() {
+			var obj = this.numberize([
+				this.getDays(),
+				this.getHours(true),
 				this.getMinutes(true),
 				this.getSeconds(true)
 			]);
@@ -1920,78 +1937,6 @@ var FlipClock;
 }(jQuery));
 
 (function($) {
-	
-	/**
-	 * Twenty-Four Hour Clock Face
-	 *
-	 * This class will generate a twenty-four our clock for FlipClock.js
-	 *
-	 * @param  object  The parent FlipClock.Factory object
-	 * @param  object  An object of properties to override the default	
-	 */
-	 
-	FlipClock.TwentyFourHourClockFace = FlipClock.Face.extend({
-
-		/**
-		 * Constructor
-		 *
-		 * @param  object  The parent FlipClock.Factory object
-		 * @param  object  An object of properties to override the default	
-		 */
-		 
-		constructor: function(factory, options) {
-			this.base(factory, options);
-		},
-
-		/**
-		 * Build the clock face
-		 *
-		 * @param  object  Pass the time that should be used to display on the clock.	
-		 */
-		 
-		build: function(time) {
-			var t        = this;
-			var children = this.factory.$el.find('ul');
-
-			if(!this.factory.time.time) {
-				this.factory.original = new Date();
-
-				this.factory.time = new FlipClock.Time(this.factory, this.factory.original);
-			}
-
-			var time = time ? time : this.factory.time.getMilitaryTime(false, this.showSeconds);
-
-			if(time.length > children.length) {
-				$.each(time, function(i, digit) {
-					t.createList(digit);
-				});
-			}
-			
-			this.createDivider();
-			this.createDivider();
-
-			$(this.dividers[0]).insertBefore(this.lists[this.lists.length - 2].$el);
-			$(this.dividers[1]).insertBefore(this.lists[this.lists.length - 4].$el);
-			
-			this.base();
-		},
-		
-		/**
-		 * Flip the clock face
-		 */
-		 
-		flip: function(time, doNotAddPlayClass) {
-			this.autoIncrement();
-			
-			time = time ? time : this.factory.time.getMilitaryTime(false, this.showSeconds);
-			
-			this.base(time, doNotAddPlayClass);	
-		}
-				
-	});
-	
-}(jQuery));
-(function($) {
 		
 	/**
 	 * Counter Clock Face
@@ -2191,18 +2136,14 @@ var FlipClock;
 (function($) {
 			
 	/**
-	 * Hourly Counter Clock Face
+	 * RD Counter Clock Face
 	 *
-	 * This class will generate an hourly counter for FlipClock.js. An
-	 * hour counter will track hours, minutes, and seconds. If number of
-	 * available digits is exceeded in the count, a new digit will be 
-	 * created.
 	 *
 	 * @param  object  The parent FlipClock.Factory object
 	 * @param  object  An object of properties to override the default	
 	 */
 	 
-	FlipClock.HourlyCounterFace = FlipClock.Face.extend({
+	FlipClock.RDDailyCounterFace = FlipClock.Face.extend({
 			
 		// clearExcessDigits: true,
 
@@ -2214,6 +2155,7 @@ var FlipClock;
 		 */
 		 
 		constructor: function(factory, options) {
+			this.options = options;
 			this.base(factory, options);
 		},
 		
@@ -2223,23 +2165,20 @@ var FlipClock;
 		
 		build: function(excludeHours, time) {
 			var t = this;
-			var children = this.factory.$el.find('ul');
-			
-			time = time ? time : this.factory.time.getHourCounter();
-			
-			if(time.length > children.length) {
-				$.each(time, function(i, digit) {
-					t.createList(digit);
-				});
-			}
-			
-			$(this.createDivider('Seconds')).insertBefore(this.lists[this.lists.length - 2].$el);
-			$(this.createDivider('Minutes')).insertBefore(this.lists[this.lists.length - 4].$el);
-			
-			if(!excludeHours) {
-				$(this.createDivider('Hours', true)).insertBefore(this.lists[0].$el);
-			}
-			
+
+			time = time ? time : this.factory.time.getRDDailyCounter();
+
+			$.each(time, function(i, digit) {
+				t.createList(digit);
+			});
+
+			var labels = ['Days','Hours','Minutes', 'Seconds'];
+
+			$.each(this.lists, function(i,el){
+				$el = el.$el;
+				var cover = $('<div class="flip-wrapper">',true);
+				$el.wrap(cover).parent().append('<span class="flip-clock-label">'+labels[i]+'</span>');
+			});
 			this.base();
 		},
 		
@@ -2249,82 +2188,20 @@ var FlipClock;
 		 
 		flip: function(time, doNotAddPlayClass) {
 			if(!time) {
-				time = this.factory.time.getHourCounter();
-			}	
+				time = this.factory.time.getRDDailyCounter();
+			}
 
 			this.autoIncrement();
 		
 			this.base(time, doNotAddPlayClass);
-		},
-
-		/**
-		 * Append a newly created list to the clock
-		 */
-
-		appendDigitToClock: function(obj) {
-			this.base(obj);
-
-			this.dividers[0].insertAfter(this.dividers[0].next());
 		}
-		
-	});
-	
-}(jQuery));
-(function($) {
-		
-	/**
-	 * Minute Counter Clock Face
-	 *
-	 * This class will generate a minute counter for FlipClock.js. A
-	 * minute counter will track minutes and seconds. If an hour is 
-	 * reached, the counter will reset back to 0. (4 digits max)
-	 *
-	 * @param  object  The parent FlipClock.Factory object
-	 * @param  object  An object of properties to override the default	
-	 */
-	 
-	FlipClock.MinuteCounterFace = FlipClock.HourlyCounterFace.extend({
-
-		clearExcessDigits: false,
-
-		/**
-		 * Constructor
-		 *
-		 * @param  object  The parent FlipClock.Factory object
-		 * @param  object  An object of properties to override the default	
-		 */
-		 
-		constructor: function(factory, options) {
-			this.base(factory, options);
-		},
-		
-		/**
-		 * Build the clock face	
-		 */
-		 
-		build: function() {
-			this.base(true, this.factory.time.getMinuteCounter());
-		},
-		
-		/**
-		 * Flip the clock face
-		 */
-		 
-		flip: function(time, doNotAddPlayClass) {
-			if(!time) {
-				time = this.factory.time.getMinuteCounter();
-			}
-
-			this.base(time, doNotAddPlayClass);
-		}
-
 	});
 	
 }(jQuery));
 (function($) {
 			
 	/**
-	 * RD Hourly Counter Clock Face
+	 * RD Counter Clock Face
 	 *
 	 *
 	 * @param  object  The parent FlipClock.Factory object
@@ -2354,8 +2231,7 @@ var FlipClock;
 		build: function(excludeHours, time) {
 			var t = this;
 
-			time = time ? time : this.factory.time.getRDHourCounter();
-
+			time = time ? time : this.factory.time.getRDHourlyCounter();
 
 			$.each(time, function(i, digit) {
 				t.createList(digit);
@@ -2377,107 +2253,13 @@ var FlipClock;
 		 
 		flip: function(time, doNotAddPlayClass) {
 			if(!time) {
-				time = this.factory.time.getRDHourCounter();
+				time = this.factory.time.getRDHourlyCounter();
 			}
 
 			this.autoIncrement();
 		
 			this.base(time, doNotAddPlayClass);
 		}
-	});
-	
-}(jQuery));
-(function($) {
-		
-	/**
-	 * Twelve Hour Clock Face
-	 *
-	 * This class will generate a twelve hour clock for FlipClock.js
-	 *
-	 * @param  object  The parent FlipClock.Factory object
-	 * @param  object  An object of properties to override the default	
-	 */
-	 
-	FlipClock.TwelveHourClockFace = FlipClock.TwentyFourHourClockFace.extend({
-		
-		/**
-		 * The meridium jQuery DOM object
-		 */
-		 
-		meridium: false,
-		
-		/**
-		 * The meridium text as string for easy access
-		 */
-		 
-		meridiumText: 'AM',
-					
-		/**
-		 * Build the clock face
-		 *
-		 * @param  object  Pass the time that should be used to display on the clock.	
-		 */
-		 
-		build: function() {
-			var t = this;
-
-			var time = this.factory.time.getTime(false, this.showSeconds);
-
-			this.base(time);			
-			this.meridiumText = this.getMeridium();			
-			this.meridium = $([
-				'<ul class="flip-clock-meridium">',
-					'<li>',
-						'<a href="#">'+this.meridiumText+'</a>',
-					'</li>',
-				'</ul>'
-			].join(''));
-						
-			this.meridium.insertAfter(this.lists[this.lists.length-1].$el);
-		},
-		
-		/**
-		 * Flip the clock face
-		 */
-		 
-		flip: function(time, doNotAddPlayClass) {			
-			if(this.meridiumText != this.getMeridium()) {
-				this.meridiumText = this.getMeridium();
-				this.meridium.find('a').html(this.meridiumText);	
-			}
-			this.base(this.factory.time.getTime(false, this.showSeconds), doNotAddPlayClass);	
-		},
-		
-		/**
-		 * Get the current meridium
-		 *
-		 * @return  string  Returns the meridium (AM|PM)
-		 */
-		 
-		getMeridium: function() {
-			return new Date().getHours() >= 12 ? 'PM' : 'AM';
-		},
-		
-		/**
-		 * Is it currently in the post-medirium?
-		 *
-		 * @return  bool  Returns true or false
-		 */
-		 
-		isPM: function() {
-			return this.getMeridium() == 'PM' ? true : false;
-		},
-
-		/**
-		 * Is it currently before the post-medirium?
-		 *
-		 * @return  bool  Returns true or false
-		 */
-		 
-		isAM: function() {
-			return this.getMeridium() == 'AM' ? true : false;
-		}
-				
 	});
 	
 }(jQuery));
